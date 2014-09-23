@@ -1,43 +1,7 @@
 ---
 
-- name: packages pinning
-  template: >
-    src=pinning.j2
-    dest=/etc/apt/preferences.d/video
-  sudo: yes
-
-- name: repositories
-  apt_repository: >
-    repo="{{ item }}"
-    state=present
-    update_cache=yes
-  with_items:
-    - deb http://www.deb-multimedia.org {{ ansible_distribution_release }} main non-free
-  sudo: yes
-
-- name: packages keyring
-  apt: >
-    name={{ item }}
-    state=present
-    force=yes
-  with_items:
-    - deb-multimedia-keyring
-  sudo: yes
-
-- name: repositories backports
-  apt_repository: >
-    repo="{{ item }}"
-    state=present
-    update_cache=yes
-  with_items:
-    - deb http://www.deb-multimedia.org {{ ansible_distribution_release }}-backports main
-  sudo: yes
-
-- name: packages
-  apt: >
-    name={{ item }}
-    state=present
-    force=yes
-  with_items:
-    - ffmpeg
+- name: install ffmpeg
+  shell: >
+    wget http://johnvansickle.com/ffmpeg/releases/ffmpeg-2.4-64bit-static.tar.xz -O /tmp/ffmpeg.tar.xz && mkdir -p /tmp/ffmpeg && tar Jxf /tmp/ffmpeg.tar.xz -C /tmp/ffmpeg --strip 1 && sudo mv /tmp/ffmpeg/ffmpeg /tmp/ffmpeg/ffprobe /usr/local/bin && rm -Rf /tmp/ffmpeg.tar.xz /tmp/ffmpeg
+    creates=/usr/local/bin/ffmpeg
   sudo: yes
