@@ -1,0 +1,43 @@
+---
+
+- name: packages pinning
+  template: >
+    src=pinning.j2
+    dest=/etc/apt/preferences.d/video
+  sudo: yes
+
+- name: repositories
+  apt_repository: >
+    repo="{{ item }}"
+    state=present
+    update_cache=yes
+  with_items:
+    - deb http://www.deb-multimedia.org {{ ansible_distribution_release }} main non-free
+  sudo: yes
+
+- name: packages keyring
+  apt: >
+    name={{ item }}
+    state=present
+    force=yes
+  with_items:
+    - deb-multimedia-keyring
+  sudo: yes
+
+- name: repositories backports
+  apt_repository: >
+    repo="{{ item }}"
+    state=present
+    update_cache=yes
+  with_items:
+    - deb http://www.deb-multimedia.org {{ ansible_distribution_release }}-backports main
+  sudo: yes
+
+- name: packages
+  apt: >
+    name={{ item }}
+    state=present
+    force=yes
+  with_items:
+    - ffmpeg
+  sudo: yes
