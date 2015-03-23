@@ -2,6 +2,6 @@
 
 - name: install ffmpeg
   shell: >
-    wget http://johnvansickle.com/ffmpeg/releases/ffmpeg-2.4.3-64bit-static.tar.xz -O /tmp/ffmpeg.tar.xz && mkdir -p /tmp/ffmpeg && tar Jxf /tmp/ffmpeg.tar.xz -C /tmp/ffmpeg --strip 1 && sudo mv /tmp/ffmpeg/ffmpeg /tmp/ffmpeg/ffprobe /usr/local/bin && rm -Rf /tmp/ffmpeg.tar.xz /tmp/ffmpeg
+    wget {{ elao_ffmpeg_archive_url }} -O /tmp/ffmpeg.tar.xz && mkdir -p /tmp/ffmpeg && tar Jxf /tmp/ffmpeg.tar.xz -C /tmp/ffmpeg --strip 1 && sudo mv /tmp/ffmpeg/ffmpeg /tmp/ffmpeg/ffprobe /usr/local/bin && rm -Rf /tmp/ffmpeg.tar.xz /tmp/ffmpeg
     creates=/usr/local/bin/ffmpeg
   sudo: yes
